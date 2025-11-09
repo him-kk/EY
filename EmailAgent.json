@@ -1,0 +1,228 @@
+{
+  "name": "EmailAgent",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "020111dd-f767-4c8f-ae30-cd4eabd04ce9",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        -688,
+        352
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "p1NFGiKcAfsfHHHE",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7ab380a2-a8d3-421c-ab4e-748ea8fb7904",
+              "name": "response",
+              "value": "Unable to perform task. Please try again.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4a12b167-1c3f-41fb-b34b-8cf74d8a2cb6",
+      "name": "Try Again",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -32,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": "={{$fromAI(\"limit\",\"how many emails the user asked for\")}}",
+        "simple": false,
+        "filters": {
+          "sender": "={{$fromAI(\"senderEmail\",\"who the user is asking for emails from\")}}"
+        },
+        "options": {}
+      },
+      "id": "a9de9289-396f-4a6a-98c1-583a3155ff70",
+      "name": "Get Messages",
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        -320,
+        352
+      ],
+      "webhookId": "5afd93e5-f797-4f9d-a708-a43543be38b2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZPpbjOjGJiLYqaBs",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "39c2f302-03be-4464-a17a-d7cc481d6d44",
+              "name": "=response",
+              "value": "={{$json.output}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b1148763-d30e-466b-b419-80e17d099066",
+      "name": "Success",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -32,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI(\"email_address\",\"the recipient's email address (must be a valid email format)\") }}\n",
+        "subject": "={{ $fromAI(\"subject\",\"the subject for the email\") }}",
+        "emailType": "text",
+        "message": "={{ $fromAI(\"email_body\",\"the body message of the email\") }}",
+        "options": {
+          "appendAttribution": "="
+        }
+      },
+      "id": "502054ad-5e6a-432a-849c-f45594504a00",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        -448,
+        352
+      ],
+      "webhookId": "87f22557-f117-47be-9ad3-7dac6e971e49",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZPpbjOjGJiLYqaBs",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{$json.query}}",
+        "options": {
+          "systemMessage": "=You are an email manager. You have access to multiple tools to take any action.\n\nSend an email to the recipient's name and email address with the following subject and message:\n\nSubject: Include the subject of the email.\nMessage: Include the body of the email.\n\nIf the number of emails isn't specified, and you are asked about unread emails, return all of the UNREAD emails.\n\nAlways sign emails as \"Nikhil\" and NEVER use placeholders like \"[Your Name].\"\n"
+        }
+      },
+      "id": "245dcfd2-3261-41c7-aac4-7a8185d2a80a",
+      "name": "Email Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        -576,
+        80
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -752,
+        80
+      ],
+      "id": "6498c684-6406-4c6b-a244-577a04bf02f1",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Email Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Messages": {
+      "ai_tool": [
+        [
+          {
+            "node": "Email Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email": {
+      "ai_tool": [
+        [
+          {
+            "node": "Email Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Agent": {
+      "main": [
+        [
+          {
+            "node": "Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Try Again",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Email Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9df05bca-0fff-4245-88b4-2c0e0b3022b9",
+  "meta": {
+    "instanceId": "9f03552fc0957eef9184f37510f8bebd3618c2a7adb03f7d2379b5fe146a71bd"
+  },
+  "id": "euydBXfl2y9LpfJl",
+  "tags": []
+}

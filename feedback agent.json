@@ -1,0 +1,950 @@
+{
+  "name": "feedback agent",
+  "nodes": [
+    {
+      "parameters": {
+        "from": "+18142976972",
+        "to": "+917398268180",
+        "message": "Hey please give the feedback of your last car service, This will help us in improving the services quality   https://hoindnioj.app.n8n.cloud/webhook-test/e7bf682e-48e8-40de-9815-cd180cdd1480/n8n-form",
+        "options": {}
+      },
+      "id": "df5f21e7-4c50-4664-907f-bcfcbaffd32f",
+      "name": "SMS Notification",
+      "type": "n8n-nodes-base.twilio",
+      "position": [
+        -64,
+        208
+      ],
+      "typeVersion": 1,
+      "executeOnce": false,
+      "credentials": {
+        "twilioApi": {
+          "id": "JT2sSuoRz3SuAbYe",
+          "name": "Twilio account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Check if customer responded in last 6 hours\n// Actual implementation: Query your database for form responses\nconst customerPhone = $json.contact;\nconst hasResponded = false; // Change to true if response found\n\nreturn [{\n  ...$json,\n  hasResponded: hasResponded,\n  checkTime: new Date().toISOString(),\n  checkType: \"6h_check\"\n}];"
+      },
+      "id": "1c5aa74a-7eda-4949-b859-6d4fb3a84cee",
+      "name": "Check Response After 6H",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        240,
+        208
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true
+          },
+          "conditions": [
+            {
+              "id": "has-responded-6h",
+              "leftValue": "={{ $json.hasResponded }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "equal"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c7bb1c03-9eeb-4450-9b41-fca142f80dd0",
+      "name": "6H Response Check",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        416,
+        208
+      ],
+      "typeVersion": 2.1
+    },
+    {
+      "parameters": {
+        "workflowId": "email-reminder-workflow-id",
+        "options": {}
+      },
+      "id": "314f3a6a-679f-4537-8e28-5e83202d92fa",
+      "name": "Send Email Reminder",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "position": [
+        608,
+        256
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "functionCode": "// Check if customer responded in last 24 hours\nconst customerPhone = $json.contact;\nconst hasResponded = false; // Change to true if response found\n\nreturn [{\n  ...$json,\n  hasResponded: hasResponded,\n  checkTime: new Date().toISOString(),\n  checkType: \"24h_final_check\"\n}];"
+      },
+      "id": "5eb01f55-6ec8-48b5-a771-10e6cdf0a9b1",
+      "name": "Check Response After 24H",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        960,
+        256
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true
+          },
+          "conditions": [
+            {
+              "id": "has-responded-24h",
+              "leftValue": "={{ $json.hasResponded }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "equal"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4fcd2197-476d-482f-a952-bc59d969eac9",
+      "name": "24H Response Check",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1136,
+        256
+      ],
+      "typeVersion": 2.1
+    },
+    {
+      "parameters": {
+        "workflowId": "voice-call-agent-workflow-id",
+        "options": {}
+      },
+      "id": "c3a519d8-4205-4a0f-8726-1b23716acf1b",
+      "name": "Voice Call Agent",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "position": [
+        1312,
+        352
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "path": "e7bf682e-48e8-40de-9815-cd180cdd1480",
+        "formTitle": "Honda Service Feedback",
+        "formDescription": "Please share your experience with your recent Honda service. Your feedback helps us improve.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Customer Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Contact Information",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Overall Satisfaction (1-5 stars)",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "1 - Very Dissatisfied"
+                  },
+                  {
+                    "option": "2 - Dissatisfied"
+                  },
+                  {
+                    "option": "3 - Neutral"
+                  },
+                  {
+                    "option": "4 - Satisfied"
+                  },
+                  {
+                    "option": "5 - Very Satisfied"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Staff Behavior Rating",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "1"
+                  },
+                  {
+                    "option": "2"
+                  },
+                  {
+                    "option": "3"
+                  },
+                  {
+                    "option": "4"
+                  },
+                  {
+                    "option": "5"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Work Quality Rating",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "1"
+                  },
+                  {
+                    "option": "2"
+                  },
+                  {
+                    "option": "3"
+                  },
+                  {
+                    "option": "4"
+                  },
+                  {
+                    "option": "5"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Waiting Time Rating",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "1"
+                  },
+                  {
+                    "option": "2"
+                  },
+                  {
+                    "option": "3"
+                  },
+                  {
+                    "option": "4"
+                  },
+                  {
+                    "option": "5"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Cleanliness Rating",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "1"
+                  },
+                  {
+                    "option": "2"
+                  },
+                  {
+                    "option": "3"
+                  },
+                  {
+                    "option": "4"
+                  },
+                  {
+                    "option": "5"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Cost Transparency Rating",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "1"
+                  },
+                  {
+                    "option": "2"
+                  },
+                  {
+                    "option": "3"
+                  },
+                  {
+                    "option": "4"
+                  },
+                  {
+                    "option": "5"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Issue Resolution Status",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Yes, completely fixed"
+                  },
+                  {
+                    "option": "Partially fixed, still some issue"
+                  },
+                  {
+                    "option": "Not fixed, problem continues"
+                  },
+                  {
+                    "option": "New problem appeared"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Additional Comments or Suggestions",
+              "fieldType": "textarea"
+            },
+            {
+              "fieldLabel": "Would you recommend Honda service?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Definitely yes"
+                  },
+                  {
+                    "option": "Probably yes"
+                  },
+                  {
+                    "option": "Not sure"
+                  },
+                  {
+                    "option": "Probably not"
+                  },
+                  {
+                    "option": "Definitely not"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "formSubmittedText": "Thank you! Your feedback has been recorded and will be reviewed by our team."
+        }
+      },
+      "id": "2cde4804-e6f5-4c9f-88cc-27256802fc53",
+      "name": "Customer Feedback Form",
+      "type": "n8n-nodes-base.formTrigger",
+      "position": [
+        0,
+        512
+      ],
+      "webhookId": "e7bf682e-48e8-40de-9815-cd180cdd1480",
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1f018f60-4345-4bfc-837f-8eb81c4b96fa",
+              "name": "Customer Name",
+              "value": "={{ $json['Customer Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "e8e14464-5406-4697-8881-188ccd7aa2a9",
+              "name": "Contact Information",
+              "value": "={{ $json['Contact Information'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b62b932b-ad2e-4702-a57e-e30cd2919782",
+              "name": "Overall Satisfaction (1-5 stars)",
+              "value": "={{ $json['Overall Satisfaction (1-5 stars)'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9995a293-ca68-437a-9b5c-1c81f5123b47",
+              "name": "Staff Behavior Rating",
+              "value": "={{ $json['Staff Behavior Rating'] }}",
+              "type": "string"
+            },
+            {
+              "id": "a0837e8f-4753-45f6-ad42-a6abd3789963",
+              "name": "Work Quality Rating",
+              "value": "={{ $json['Work Quality Rating'] }}",
+              "type": "string"
+            },
+            {
+              "id": "11f8cd62-0584-41b6-a91f-0183693b7f0d",
+              "name": "Waiting Time Rating",
+              "value": "={{ $json['Waiting Time Rating'] }}",
+              "type": "string"
+            },
+            {
+              "id": "fd6d65d8-0729-4be4-8972-72883b973f0e",
+              "name": "Cleanliness Rating",
+              "value": "={{ $json['Cleanliness Rating'] }}",
+              "type": "string"
+            },
+            {
+              "id": "2e6cebc6-1ffd-41a3-a2c0-07a6f9749bdd",
+              "name": "Cleanliness Rating",
+              "value": "={{ $json['Cleanliness Rating'] }}",
+              "type": "string"
+            },
+            {
+              "id": "dd3545ee-38eb-40dc-9b4f-0396fbd9f878",
+              "name": "Cost Transparency Rating",
+              "value": "={{ $json['Cost Transparency Rating'] }}",
+              "type": "string"
+            },
+            {
+              "id": "7ca3e7ae-85cc-4984-8dfe-f917f47851a3",
+              "name": "Issue Resolution Status",
+              "value": "={{ $json['Issue Resolution Status'] }}",
+              "type": "string"
+            },
+            {
+              "id": "f875fb95-275b-441a-b09b-d52b596dc431",
+              "name": "Additional Comments or Suggestions",
+              "value": "={{ $json['Additional Comments or Suggestions'] }}",
+              "type": "string"
+            },
+            {
+              "id": "733531b1-d95e-4afb-a29f-e8ce10f19726",
+              "name": "Would you recommend Honda service?",
+              "value": "={{ $json['Would you recommend Honda service?'] }}",
+              "type": "string"
+            },
+            {
+              "id": "57830d7b-5b32-4cb5-8193-b2d016e9f006",
+              "name": "submittedAt",
+              "value": "={{ $json.submittedAt }}",
+              "type": "string"
+            },
+            {
+              "id": "d3727f9d-cdb6-4bcb-b7d5-3eee0c848fda",
+              "name": "formMode",
+              "value": "={{ $json.formMode }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "dd469bcf-3b03-4981-8ebc-df61ea04e7aa",
+      "name": "Calculate NPS Score",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        208,
+        512
+      ],
+      "typeVersion": 3.3
+    },
+    {
+      "parameters": {
+        "prompt": "Analyze the sentiment and extract key themes from this customer feedback: '{{ $json['Additional Comments or Suggestions'] }}'. Provide a sentiment score (1-10) and main topics mentioned.",
+        "options": {},
+        "requestOptions": {}
+      },
+      "id": "7f97fadf-fe28-4481-8d69-9d027c7d88e0",
+      "name": "OpenAI Sentiment Analysis",
+      "type": "n8n-nodes-base.openAi",
+      "position": [
+        400,
+        512
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "openAiApi": {
+          "id": "O8B2Z0nckDCnsrvo",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1Q1TIz5a5wRnpEEfAGltXrumLjqaM3g9Wvjl9RXds-6w",
+          "mode": "list",
+          "cachedResultName": "Store Feedback in Google Sheets",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Q1TIz5a5wRnpEEfAGltXrumLjqaM3g9Wvjl9RXds-6w/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Q1TIz5a5wRnpEEfAGltXrumLjqaM3g9Wvjl9RXds-6w/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "text",
+              "displayName": "text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "logprobs",
+              "displayName": "logprobs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "finish_reason",
+              "displayName": "finish_reason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "a9561112-05ab-4660-8167-747b89ae9dad",
+      "name": "Store Feedback in Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        608,
+        512
+      ],
+      "typeVersion": 4.1,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "chDnYbfu23A1LgZy",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "condition-1-2-stars",
+              "leftValue": "={{ $json['Overall Satisfaction (1-5 stars)'] }}",
+              "rightValue": "1 - Very Dissatisfied",
+              "operator": {
+                "type": "string",
+                "operation": "equal"
+              }
+            },
+            {
+              "id": "condition-1-2-stars-2",
+              "leftValue": "={{ $json['Overall Satisfaction (1-5 stars)'] }}",
+              "rightValue": "2 - Dissatisfied",
+              "operator": {
+                "type": "string",
+                "operation": "equal"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "0665d8fb-b6e0-403f-90de-ab124f588858",
+      "name": "Route Based on Rating",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        800,
+        512
+      ],
+      "typeVersion": 2.1
+    },
+    {
+      "parameters": {
+        "fromEmail": "himanshu315tiwari@gmail.com",
+        "toEmail": "himanst5@gmail.com",
+        "subject": "URGENT: Low Customer Rating - Immediate Attention Required",
+        "text": "Customer {{ $json['Customer Name'] }} rated service {{ $json['Overall Satisfaction (1-5 stars)'] }}\n\nComments: {{ $json['Additional Comments or Suggestions'] }}\n\nSentiment Analysis: {{ $json.sentiment }}\n\nPlease contact immediately: {{ $json['Contact Information'] }}",
+        "options": {}
+      },
+      "id": "0cbbee4e-96c6-4ef1-b61f-6f6722aaf7dc",
+      "name": "Service Manager Alert",
+      "type": "n8n-nodes-base.emailSend",
+      "position": [
+        1376,
+        592
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "smtp": {
+          "id": "ZMUePXFxwMykCA9K",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "0384c2c1-8c7e-4739-b4c2-ff727a0e4f05",
+      "name": "Response Received - Break",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        576,
+        64
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -224,
+        208
+      ],
+      "id": "25e89ecf-c0a2-423b-9698-6ec259e89fe2",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "amount": 6,
+        "unit": "hours"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        768,
+        256
+      ],
+      "id": "d9021406-e61b-4be6-b96f-e38ec7339316",
+      "name": "Wait",
+      "webhookId": "1a791d0b-73e6-43bd-910b-c18346d5f4f9"
+    },
+    {
+      "parameters": {
+        "amount": 24,
+        "unit": "hours"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "8dc4559b-2ebd-493e-87e5-cce2772c421d",
+      "name": "Wait1",
+      "webhookId": "e9a39e43-8d05-40c9-a755-b6a262002d37"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "euydBXfl2y9LpfJl",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/euydBXfl2y9LpfJl",
+          "cachedResultName": "EmailAgent"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {}
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1040,
+        496
+      ],
+      "id": "1b81be10-1b75-4392-aec8-c28181a55633",
+      "name": "Call 'EmailAgent'"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "euydBXfl2y9LpfJl",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/euydBXfl2y9LpfJl",
+          "cachedResultName": "EmailAgent"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {}
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1088,
+        656
+      ],
+      "id": "58da9d14-bc05-4ed9-ac86-5926b52aad72",
+      "name": "Call 'EmailAgent'1"
+    }
+  ],
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "customerName": "Rajesh Kumar",
+          "phoneNumber": "+919876543210",
+          "carModel": "Maruti Swift",
+          "serviceType": "Full Service",
+          "serviceDate": "2025-10-26",
+          "serviceCenter": "Delhi Service Center",
+          "invoiceNumber": "INV-2025-001",
+          "amount": "3500"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Check Response After 6H": {
+      "main": [
+        [
+          {
+            "node": "6H Response Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "6H Response Check": {
+      "main": [
+        [
+          {
+            "node": "Response Received - Break",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Email Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Response After 24H": {
+      "main": [
+        [
+          {
+            "node": "24H Response Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "24H Response Check": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Voice Call Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Feedback Form": {
+      "main": [
+        [
+          {
+            "node": "Calculate NPS Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate NPS Score": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Sentiment Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Sentiment Analysis": {
+      "main": [
+        [
+          {
+            "node": "Store Feedback in Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Feedback in Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Route Based on Rating",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route Based on Rating": {
+      "main": [
+        [
+          {
+            "node": "Call 'EmailAgent'",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Call 'EmailAgent'1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "SMS Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Check Response After 24H",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email Reminder": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Check Response After 6H",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SMS Notification": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'EmailAgent'": {
+      "main": [
+        []
+      ]
+    },
+    "Call 'EmailAgent'1": {
+      "main": [
+        [
+          {
+            "node": "Service Manager Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "05d4f411-3c07-4209-8525-d71925ea5557",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9f03552fc0957eef9184f37510f8bebd3618c2a7adb03f7d2379b5fe146a71bd"
+  },
+  "id": "G4LhqH8vm1who0Ls",
+  "tags": []
+}

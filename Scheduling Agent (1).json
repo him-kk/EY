@@ -1,0 +1,1051 @@
+{
+  "name": "Scheduling Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "appointment-requests",
+        "options": {}
+      },
+      "id": "4cc4c5ca-963c-4ca9-be3e-438be1dd3090",
+      "name": "Appointment Request Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -1728,
+        368
+      ],
+      "webhookId": "appointment-requests"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ki1N3kyE4BpJt4KF-4fdJIVfSwRIuJixvc-NmVdnicU",
+          "mode": "list",
+          "cachedResultName": "Partsinventory",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ki1N3kyE4BpJt4KF-4fdJIVfSwRIuJixvc-NmVdnicU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1924149780,
+          "mode": "list",
+          "cachedResultName": "Partsinventory",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ki1N3kyE4BpJt4KF-4fdJIVfSwRIuJixvc-NmVdnicU/edit#gid=1924149780"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "partName",
+              "lookupValue": "={{ $json.partName }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8887575c-5484-462b-a47c-2ef2ee0c9ed1",
+      "name": "Get Parts Inventory",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        128,
+        432
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ejx5gXBK1x8bww8Z",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1KAhD4cgt1apWmUheJX3S0tGiK5QbNhBV16-EAply8rA",
+          "mode": "list",
+          "cachedResultName": "Update1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KAhD4cgt1apWmUheJX3S0tGiK5QbNhBV16-EAply8rA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KAhD4cgt1apWmUheJX3S0tGiK5QbNhBV16-EAply8rA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "request",
+              "displayName": "request",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "waitlistPosition",
+              "displayName": "waitlistPosition",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "createdAt",
+              "displayName": "createdAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "aiEnhanced",
+              "displayName": "aiEnhanced",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "08b06ce5-a7a6-4e79-b307-a445832faf6f",
+      "name": "Save Appointment",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        -272,
+        -32
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ejx5gXBK1x8bww8Z",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "from": "+18142976972",
+        "to": "+917398268180",
+        "message": "Hii your order confirmed ",
+        "options": {}
+      },
+      "id": "bae44daa-1d5e-4b71-8c29-20c0f4d6444a",
+      "name": "Send SMS Confirmation",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -176
+      ],
+      "credentials": {
+        "twilioApi": {
+          "id": "JT2sSuoRz3SuAbYe",
+          "name": "Twilio account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "himanst5@gmail.com",
+        "toEmail": "himanshu315tiwari@gmail.com",
+        "subject": "={{ `Appointment Confirmation - ${$json.confirmationCode}` }}",
+        "text": "={{ `Dear Himanshu Tiwari ,\\n\\nYour service appointment has been confirmed.\\n\\nAppointment Details:\\n- Service: ${$json.serviceType}\\n- Vehicle: ${$json.vehicle.make} ${$json.vehicle.model} (${$json.vehicle.year})\\n- Date: ${new Date($json.startTime).toLocaleDateString()}\\n- Time: ${new Date($json.startTime).toLocaleTimeString()}\\n- Location: ${$json.centerName}, ${$json.centerAddress}\\n- Technician: ${$json.technicianName}\\n- Estimated Duration: ${Math.floor($json.estimatedDuration/60)}h ${$json.estimatedDuration%60}m\\n- Estimated Cost: ₹${$json.estimatedCost}\\n- Confirmation Code: ${$json.confirmationCode}\\n\\nPlease bring your vehicle registration and insurance documents.\\n\\n24-hour cancellation policy applies.\\n\\nThank you for choosing our service!` }}",
+        "options": {}
+      },
+      "id": "0cf62c0f-cc17-4d6b-a908-426e510631c9",
+      "name": "Send Email Confirmation",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        208
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "ZMUePXFxwMykCA9K",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "815ba4c4-0a0b-40a5-b420-736eac79bc92",
+      "name": "Waitlist Response",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        16
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "e53ad0ec-03b8-4b16-ba36-5a4b4f9e694b",
+      "name": "Fleet Response",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -944,
+        848
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "49c5ca30-71ba-4ddf-b754-261478acdf04",
+      "name": "Cancellation Response",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        624,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Fleet management logic\nconst inputData = $input.first().json;\n\n// The vehicles data is in inputData.body, not inputData.fleetRequest\nconst fleetRequest = inputData.body || {};\nconst vehicles = fleetRequest.vehicles || [];\n\n// Calculate optimal scheduling for multiple vehicles\nfunction createFleetSchedule(vehicles, serviceCenters, maxDailyCapacity = 8) {\n  const vehiclesArray = Array.isArray(vehicles) ? vehicles : [];\n  const availableVehicles = vehiclesArray.filter(v => v.status === 'available' || !v.status); // Include vehicles without status\n  const schedule = {};\n  const vehicleGroups = {\n    high_priority: availableVehicles.filter(v => v.priority === 'high'),\n    medium_priority: availableVehicles.filter(v => v.priority === 'medium'),\n    low_priority: availableVehicles.filter(v => v.priority === 'low')\n  };\n  \n  // Schedule high priority vehicles first (sales team)\n  let currentDate = new Date(fleetRequest.startDate);\n  const scheduledVehicles = [];\n  \n  for (const [priority, group] of Object.entries(vehicleGroups)) {\n    let dailyCount = 0;\n    let dayOffset = 0;\n    \n    for (const vehicle of group) {\n      if (dailyCount >= maxDailyCapacity) {\n        dayOffset++;\n        dailyCount = 0;\n      }\n      \n      const scheduledDate = new Date(currentDate);\n      scheduledDate.setDate(scheduledDate.getDate() + dayOffset);\n      \n      scheduledVehicles.push({\n        ...vehicle,\n        scheduledDate: scheduledDate.toISOString().split('T')[0],\n        assignedPriority: priority\n      });\n      \n      dailyCount++;\n    }\n  }\n  \n  return scheduledVehicles;\n}\n\nconst fleetSchedule = createFleetSchedule(\n  vehicles,\n  fleetRequest.serviceCenters || []\n);\n\n// Calculate volume discount\nconst totalVehicles = vehicles.length;\nlet discount = 0;\nif (totalVehicles >= 10) discount = 0.12;\nelse if (totalVehicles >= 5) discount = 0.08;\n\nconst baseCostPerVehicle = 3999;\nconst totalCost = totalVehicles * baseCostPerVehicle * (1 - discount);\n\nreturn [{\n  json: {\n    fleetRequest: fleetRequest,\n    schedule: fleetSchedule,\n    pricing: {\n      totalVehicles: totalVehicles,\n      baseCostPerVehicle: baseCostPerVehicle,\n      discountRate: discount,\n      discountAmount: totalVehicles * baseCostPerVehicle * discount,\n      finalCost: totalCost,\n      loanerCars: Math.min(3, vehicles.filter(v => v.priority === 'high').length)\n    },\n    proposal: {\n      durationWeeks: Math.ceil(totalVehicles / 8),\n      startDate: fleetRequest.startDate,\n      completionDate: new Date(new Date(fleetRequest.startDate).setDate(\n        new Date(fleetRequest.startDate).getDate() + Math.ceil(totalVehicles / 8) * 7\n      )).toISOString().split('T')[0]\n    },\n    metadata: {\n      requestType: fleetRequest.requestType,\n      companyName: fleetRequest.companyName,\n      contactPerson: fleetRequest.contactPerson\n    }\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1152,
+        848
+      ],
+      "id": "6f29abf0-5fd8-409f-bee2-d6f40fb09279",
+      "name": "Fleet scheduling Algorithm"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare booking with AI Agent enhanced data\nconst schedulingResult = $input.first().json;\nconst request = schedulingResult.request;\n\n// Debug: Check what we're receiving from updated scheduling algorithm\nconsole.log('Scheduling Result from AI-enhanced algorithm:', JSON.stringify(schedulingResult, null, 2));\n\nif (schedulingResult.recommendedSlots.length === 0) {\n  // No available slots - create waitlist entry\n  return [{\n    json: {\n      status: 'waitlisted',\n      request: request,\n      message: 'No available slots found. Added to waitlist.',\n      waitlistPosition: Math.floor(Math.random() * 10) + 1,\n      createdAt: new Date().toISOString(),\n      aiEnhanced: true\n    }\n  }];\n}\n\n// Select the best slot from AI-enhanced recommendations\nconst bestSlot = schedulingResult.recommendedSlots[0];\nconst selectedTechnician = bestSlot.technicians[0];\n\n// Generate appointment ID\nconst appointmentId = 'APT_' + Math.random().toString(36).substr(2, 9).toUpperCase();\n\n// Calculate cost estimate with AI-enhanced considerations\nconst costEstimates = {\n  'oil_change': 2999,\n  'brake_service': 5999,\n  'ac_repair': 8999,\n  'engine_diagnostic': 1999,\n  'thermostat_replacement': 3999,\n  'routine_maintenance': 4499\n};\n\nconst baseCost = costEstimates[request.serviceType] || 3999;\n\n// Add priority-based cost adjustment\nlet finalCost = baseCost;\nif (request.priority === 'high') {\n  finalCost = Math.round(baseCost * 1.1); // 10% premium for high priority\n} else if (request.priority === 'critical') {\n  finalCost = Math.round(baseCost * 1.2); // 20% premium for critical\n}\n\n// Prepare enhanced booking data with AI insights\nconst bookingData = {\n  appointmentId: appointmentId,\n  status: 'pending_confirmation',\n  customerId: request.customerId,\n  customerName: request.customerName,\n  customerPhone: request.customerPhone,\n  customerEmail: request.customerEmail,\n  vehicle: request.vehicle,\n  serviceType: request.serviceType,\n  priority: request.priority,\n  centerId: bestSlot.center.id,\n  centerName: bestSlot.center.name,\n  centerAddress: bestSlot.center.address,\n  technicianId: selectedTechnician.id,\n  technicianName: selectedTechnician.name,\n  technicianSpecialization: selectedTechnician.specializations,\n  startTime: bestSlot.slot.start.toISOString(),\n  endTime: bestSlot.slot.end.toISOString(),\n  estimatedDuration: request.estimatedDuration,\n  estimatedCost: finalCost,\n  partsAvailability: bestSlot.partsAvailability,\n  slotScore: bestSlot.score, // AI scoring included\n  estimatedCompletion: bestSlot.estimatedCompletion,\n  confirmationCode: Math.random().toString(36).substr(2, 6).toUpperCase(),\n  createdAt: new Date().toISOString(),\n  aiEnhanced: true,\n  schedulingMethod: 'ai_optimized'\n};\n\n// Add cancellation policy based on priority\nif (request.priority === 'critical') {\n  bookingData.cancellationPolicy = '4-hour notice required';\n  bookingData.refundPolicy = '50% refund if cancelled within 4 hours';\n} else {\n  bookingData.cancellationPolicy = '24-hour notice required';\n  bookingData.refundPolicy = '80% refund if cancelled within 24 hours';\n}\n\nreturn [{\n  json: bookingData\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -448,
+        -32
+      ],
+      "id": "3f5003ff-333c-49e4-b575-b905d7e9adc5",
+      "name": "Prepare Booking "
+    },
+    {
+      "parameters": {
+        "jsCode": "// Updated scheduling algorithm - Now receives pre-processed data from AI Agent\nconst preparedData = $input.first().json;\n\n// Get data from AI Agent's structured output\nconst request = preparedData.customerRequest;\nconst serviceCenters = preparedData.serviceCenters || [];\nconst appointments = preparedData.appointments || [];\nconst technicians = preparedData.technicians || [];\nconst partsInventory = preparedData.partsInventory || [];\n\n// Debug: Check AI Agent's output\nconsole.log('AI Agent Prepared Data:', JSON.stringify(preparedData, null, 2));\n\n// If request is null, return error\nif (!request) {\n  return [{\n    json: {\n      error: 'No request data received from AI Agent',\n      message: 'Please check the AI Agent node connections'\n    }\n  }];\n}\n\n// Parse preferred date\nconst preferredDate = new Date(request.preferredDate);\nconst dayOfWeek = preferredDate.getDay(); // 0 = Sunday, 6 = Saturday\n\n// Service center working hours\nconst workingHours = {\n  weekdays: { open: '09:00', close: '18:00' },\n  saturday: { open: '09:00', close: '17:00' },\n  sunday: { open: '00:00', close: '00:00' } // Closed\n};\n\n// Generate time slots for the preferred date\nfunction generateTimeSlots(center, date, duration) {\n  const slots = [];\n  const isWeekend = date.getDay() === 0 || date.getDay() === 6;\n  const hours = isWeekend ? workingHours.saturday : workingHours.weekdays;\n  \n  const [openHour, openMinute] = hours.open.split(':').map(Number);\n  const [closeHour, closeMinute] = hours.close.split(':').map(Number);\n  \n  let currentTime = new Date(date);\n  currentTime.setHours(openHour, openMinute, 0, 0);\n  \n  const endTime = new Date(date);\n  endTime.setHours(closeHour, closeMinute, 0, 0);\n  \n  while (currentTime < endTime) {\n    const slotEnd = new Date(currentTime.getTime() + duration * 60000);\n    if (slotEnd <= endTime) {\n      slots.push({\n        start: new Date(currentTime),\n        end: slotEnd,\n        timeString: currentTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })\n      });\n    }\n    currentTime = new Date(currentTime.getTime() + 30 * 60000); // 30-minute intervals\n  }\n  \n  return slots;\n}\n\n// Check if slot is available\nfunction isSlotAvailable(centerId, slotStart, slotEnd, existingAppointments, duration) {\n  const centerAppointments = existingAppointments.filter(apt => \n    apt.centerId === centerId && apt.status !== 'cancelled'\n  );\n  \n  for (const apt of centerAppointments) {\n    const aptStart = new Date(apt.startTime);\n    const aptEnd = new Date(apt.endTime);\n    \n    // Check for overlap with buffer time (15 minutes between appointments)\n    if (slotStart < new Date(aptEnd.getTime() + 15 * 60000) && \n        slotEnd > new Date(aptStart.getTime() - 15 * 60000)) {\n      return false;\n    }\n  }\n  \n  return true;\n}\n\n// Find available technicians for a slot\nfunction findAvailableTechnicians(centerId, slotStart, slotEnd, technicians, requiredSpecialization) {\n  return technicians.filter(tech => {\n    const hasSpecialization = requiredSpecialization.some(spec => \n      tech.specializations && tech.specializations.includes(spec)\n    );\n    \n    const isAvailable = !tech.appointments || tech.appointments.some(apt => {\n      const aptStart = new Date(apt.startTime);\n      const aptEnd = new Date(apt.endTime);\n      return !(slotStart < aptEnd && slotEnd > aptStart);\n    });\n    \n    return tech.centerId === centerId && hasSpecialization && isAvailable;\n  });\n}\n\n// Check parts availability\nfunction checkPartsAvailability(serviceType, vehicleModel, centerId, partsInventory) {\n  const requiredParts = {\n    'oil_change': ['engine_oil', 'oil_filter'],\n    'brake_service': ['brake_pads', 'brake_fluid'],\n    'ac_repair': ['ac_gas', 'ac_compressor'],\n    'thermostat_replacement': ['thermostat']\n  };\n  \n  const parts = requiredParts[serviceType] || [];\n  const availability = {};\n  \n  for (const part of parts) {\n    const inventoryItem = partsInventory.find(item => \n      item.partName === part && item.centerId === centerId && item.quantity > 0\n    );\n    availability[part] = !!inventoryItem;\n  }\n  \n  return {\n    allAvailable: Object.values(availability).every(Boolean),\n    availableParts: availability\n  };\n}\n\n// Score slots based on customer preferences\nfunction scoreSlot(slot, customerPreference, center, partsAvailability, availableTechnicians) {\n  let score = 0;\n  \n  // Time preference scoring\n  const slotHour = slot.start.getHours();\n  if (customerPreference === 'morning' && slotHour < 12) score += 10;\n  if (customerPreference === 'afternoon' && slotHour >= 12 && slotHour < 17) score += 10;\n  if (customerPreference === 'evening' && slotHour >= 17) score += 10;\n  \n  // Center distance scoring (closer is better)\n  score += Math.max(0, 10 - center.distance);\n  \n  // Parts availability scoring\n  if (partsAvailability.allAvailable) score += 5;\n  \n  // Technician availability scoring\n  if (availableTechnicians.length > 0) score += 5;\n  \n  // Priority scoring (earlier slots for higher priority)\n  if (request.priority === 'high' || request.priority === 'critical') {\n    score += (24 - slotHour); // Earlier hours get higher scores\n  }\n  \n  return score;\n}\n\n// Main scheduling logic\nconst availableSlots = [];\n\n// Use nearbyServiceCenters from AI Agent's prepared data\nfor (const center of request.nearbyServiceCenters) {\n  const timeSlots = generateTimeSlots(center, preferredDate, request.estimatedDuration);\n  const centerData = serviceCenters.find(sc => sc.id === center.id);\n  \n  for (const slot of timeSlots) {\n    const isAvailable = isSlotAvailable(\n      center.id, \n      slot.start, \n      slot.end, \n      appointments, \n      request.estimatedDuration\n    );\n    \n    if (isAvailable) {\n      const availableTechnicians = findAvailableTechnicians(\n        center.id,\n        slot.start,\n        slot.end,\n        technicians,\n        request.requiredSpecialization\n      );\n      \n      const partsAvailability = checkPartsAvailability(\n        request.serviceType,\n        request.vehicle.model,\n        center.id,\n        partsInventory\n      );\n      \n      if (availableTechnicians.length > 0) {\n        const slotScore = scoreSlot(\n          slot,\n          request.preferredTime,\n          center,\n          partsAvailability,\n          availableTechnicians\n        );\n        \n        availableSlots.push({\n          center: centerData,\n          slot: slot,\n          technicians: availableTechnicians,\n          partsAvailability: partsAvailability,\n          score: slotScore,\n          estimatedCompletion: new Date(slot.start.getTime() + request.estimatedDuration * 60000)\n        });\n      }\n    }\n  }\n}\n\n// Sort by score and get top recommendations\nconst recommendedSlots = availableSlots\n  .sort((a, b) => b.score - a.score)\n  .slice(0, 3);\n\nreturn [{\n  json: {\n    request: request,\n    recommendedSlots: recommendedSlots,\n    totalAvailableSlots: availableSlots.length,\n    schedulingTimestamp: new Date().toISOString(),\n    aiAgentDataUsed: true\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -624,
+        -32
+      ],
+      "id": "c647d9c6-8d67-4810-bdb0-1c69c267a263",
+      "name": "Scheduling Algorithm"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract and normalize booking request data\nconst request = $input.first().json;\n\n// Calculate distance to service centers\nfunction calculateDistance(lat1, lon1, lat2, lon2) {\n  const R = 6371; // Earth's radius in km\n  const dLat = (lat2 - lat1) * Math.PI / 180;\n  const dLon = (lon2 - lon1) * Math.PI / 180;\n  const a = \n    Math.sin(dLat/2) * Math.sin(dLat/2) +\n    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * \n    Math.sin(dLon/2) * Math.sin(dLon/2);\n  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));\n  return R * c;\n}\n\n// Service center locations (in real implementation, this would come from database)\nconst serviceCenters = [\n  { id: 'SC_A', name: 'Service Center A', lat: 28.6139, lon: 77.2090, address: 'Sector 18' },\n  { id: 'SC_B', name: 'Service Center B', lat: 28.4595, lon: 77.0266, address: 'Sector 22' },\n  { id: 'SC_C', name: 'Service Center C', lat: 28.5355, lon: 77.3910, address: 'Sector 45' }\n];\n\n// FIX: Check if customerLocation exists, else use default location\nconst customerLocation = request.customerLocation || { lat: 28.6129, lon: 77.2295 };\n\n// Find centers within 10km - FIXED LINE 26\nconst nearbyCenters = serviceCenters.map(center => ({\n  ...center,\n  distance: calculateDistance(customerLocation.lat, customerLocation.lon, center.lat, center.lon)\n})).filter(center => center.distance <= 10)\n  .sort((a, b) => a.distance - b.distance);\n\n// Service duration mapping (in minutes)\nconst serviceDurations = {\n  'oil_change': 60,\n  'brake_service': 120,\n  'ac_repair': 180,\n  'engine_diagnostic': 120,\n  'thermostat_replacement': 90,\n  'routine_maintenance': 120\n};\n\n// Technician specialization mapping\nconst technicianSpecializations = {\n  'oil_change': ['junior', 'senior'],\n  'brake_service': ['senior'],\n  'ac_repair': ['ac_specialist'],\n  'engine_diagnostic': ['diagnostic_specialist', 'senior'],\n  'thermostat_replacement': ['senior'],\n  'routine_maintenance': ['junior', 'senior']\n};\n\nconst normalizedData = {\n  requestId: request.requestId || Math.random().toString(36).substr(2, 9),\n  customerId: request.customerId,\n  customerName: request.customerName,\n  customerPhone: request.customerPhone,\n  customerEmail: request.customerEmail,\n  vehicle: {\n    make: request.vehicleMake,\n    model: request.vehicleModel,\n    year: request.vehicleYear,\n    licensePlate: request.licensePlate\n  },\n  serviceType: request.serviceType,\n  priority: request.priority || 'medium', // low, medium, high, critical\n  preferredDate: request.preferredDate,\n  preferredTime: request.preferredTime, // morning, afternoon, evening, specific time\n  estimatedDuration: serviceDurations[request.serviceType] || 120,\n  requiredSpecialization: technicianSpecializations[request.serviceType] || ['senior'],\n  customerLocation: customerLocation, // Use the fixed variable\n  nearbyServiceCenters: nearbyCenters,\n  createdAt: new Date().toISOString()\n};\n\nreturn [{\n  json: normalizedData\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1456,
+        -32
+      ],
+      "id": "024ce00d-91f0-47a7-a7f9-2bb8f1097c3c",
+      "name": "Normalized Request Data"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.requestType }}",
+                    "rightValue": "new_booking",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "64b57fe5-af72-4abc-9d34-a7f99b0982f4"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e515cbf0-2f56-41b2-8f4d-fe6092f77e97",
+                    "leftValue": "={{ $json.body.requestType }}",
+                    "rightValue": "cancellation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a2b1612b-a0b5-46fc-af4f-2135fb31e9ef",
+                    "leftValue": "={{ $json.body.requestType }}",
+                    "rightValue": "fleet_booking",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -1440,
+        352
+      ],
+      "id": "8de6958b-47b0-42d6-9f67-07d702612752",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Process cancellation for appointment {{ $json.body.appointmentId }} with customer {{ $json.body.customerId }}. Execute these 5 steps:\n\n1. Find the appointment by ID in appointments database\n2. Update status to 'cancelled' with timestamp  \n3. Release reserved parts back to inventory\n4. Notify waitlisted customers about available slot\n5. Send cancellation confirmation with refund details\n\nProvide complete cancellation report.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -1008,
+        432
+      ],
+      "id": "62dc492e-4811-44bf-9a7c-ce0522b0681f",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1024,
+        608
+      ],
+      "id": "0b826575-5200-45f6-a35e-226f583f91fc",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "O8B2Z0nckDCnsrvo",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1VofaxcSO1irDNBLBDxDD2R5wNeaCDHEDlIIZL2eKjFU",
+          "mode": "list",
+          "cachedResultName": "update5",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VofaxcSO1irDNBLBDxDD2R5wNeaCDHEDlIIZL2eKjFU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 871000008,
+          "mode": "list",
+          "cachedResultName": "ooo1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VofaxcSO1irDNBLBDxDD2R5wNeaCDHEDlIIZL2eKjFU/edit#gid=871000008"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        -880,
+        624
+      ],
+      "id": "dfd72814-99d0-4796-aac2-3875474d6ee6",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ejx5gXBK1x8bww8Z",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse AI Agent output and extract cancellation details\nconst aiOutput = $input.first().json.output || $input.first().json.text || JSON.stringify($input.first().json);\n\n// Extract appointment ID from AI response\nconst appointmentIdMatch = aiOutput.match(/APT_[A-Z0-9]+/);\nconst appointmentId = appointmentIdMatch ? appointmentIdMatch[0] : null;\n\n// Get the original request data from Switch node\nconst originalRequest = $('Switch').first().json.body;\n\nif (!appointmentId) {\n  return [{\n    json: {\n      error: 'Could not extract appointment ID from AI output',\n      aiOutput: aiOutput,\n      appointmentId: originalRequest.appointmentId || 'APT_001',\n      customerId: originalRequest.customerId,\n      customerName: originalRequest.customerName || 'Customer',\n      customerEmail: originalRequest.customerEmail || 'customer@example.com',\n      customerPhone: originalRequest.customerPhone || '+919876543210',\n      cancelledAt: new Date().toISOString(),\n      status: 'cancelled'\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    appointmentId: appointmentId,\n    customerId: originalRequest.customerId,\n    customerName: originalRequest.customerName || 'Customer',\n    customerEmail: originalRequest.customerEmail,\n    customerPhone: originalRequest.customerPhone,\n    cancelledAt: new Date().toISOString(),\n    aiAnalysis: aiOutput,\n    status: 'cancelled'\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -688,
+        432
+      ],
+      "id": "93c51437-b9c7-44d9-9fd9-ed7684ef6a99",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get parsed data from Parse AI Output\nconst parsedDataNode = $input.all().find(item => item.json.appointmentId);\nconst parsedData = parsedDataNode ? parsedDataNode.json : $input.first().json;\n\n// Get all appointments - Use $input for direct previous node\nconst appointments = $input.all();\n\n// Convert to simple array\nconst allAppointments = appointments.map(item => {\n  const data = item.json;\n  return {\n    appointmentId: data.appointmentId,\n    customerId: data.customerId,\n    customerName: data.customerName,\n    customerEmail: data.customerEmail,\n    customerPhone: data.customerPhone,\n    serviceType: data.serviceType,\n    vehicleMake: data.vehicleMake,\n    vehicleModel: data.vehicleModel,\n    vehicleYear: data.vehicleYear,\n    centerId: data.centerId,\n    technicianId: data.technicianId,\n    startTime: data.startTime,\n    endTime: data.endTime,\n    estimatedCost: data.estimatedCost,\n    estimatedDuration: data.estimatedDuration,\n    status: data.status,\n    licensePlate: data.licensePlate,\n    priority: data.priority\n  };\n});\n\n// Get appointmentId from parsed data\nconst targetAppointmentId = parsedData.appointmentId;\n\n// Find the matching appointment\nconst foundAppointment = allAppointments.find(apt => \n  apt.appointmentId === targetAppointmentId\n);\n\n// If not found, use defaults\nif (!foundAppointment) {\n  return [{\n    json: {\n      appointmentId: targetAppointmentId,\n      customerId: parsedData.customerId || 'CUST_001',\n      customerName: parsedData.customerName || 'Customer',\n      customerEmail: parsedData.customerEmail || 'customer@example.com',\n      customerPhone: parsedData.customerPhone || '+919876543210',\n      serviceType: 'oil_change',\n      vehicleMake: 'Honda',\n      vehicleModel: 'City',\n      vehicleYear: '2020',\n      centerId: 'SC_A',\n      estimatedCost: 2999,\n      startTime: new Date().toISOString(),\n      endTime: new Date(Date.now() + 3600000).toISOString(),\n      cancelledAt: parsedData.cancelledAt || new Date().toISOString(),\n      status: 'cancelled'\n    }\n  }];\n}\n\n// Return merged data\nreturn [{\n  json: {\n    appointmentId: foundAppointment.appointmentId,\n    customerId: foundAppointment.customerId,\n    customerName: foundAppointment.customerName,\n    customerEmail: foundAppointment.customerEmail,\n    customerPhone: foundAppointment.customerPhone,\n    serviceType: foundAppointment.serviceType,\n    vehicleMake: foundAppointment.vehicleMake,\n    vehicleModel: foundAppointment.vehicleModel,\n    vehicleYear: foundAppointment.vehicleYear,\n    licensePlate: foundAppointment.licensePlate,\n    centerId: foundAppointment.centerId,\n    technicianId: foundAppointment.technicianId,\n    startTime: foundAppointment.startTime,\n    endTime: foundAppointment.endTime,\n    estimatedCost: foundAppointment.estimatedCost || 2999,\n    estimatedDuration: foundAppointment.estimatedDuration,\n    priority: foundAppointment.priority,\n    cancelledAt: parsedData.cancelledAt || new Date().toISOString(),\n    status: 'cancelled'\n  }\n}];\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -272,
+        432
+      ],
+      "id": "f1223007-4ba0-4ffd-aa13-abd1acb84ab8",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Release reserved parts back to inventory\nconst appointmentData = $input.first().json;\nconst serviceType = appointmentData.serviceType;\n\n// Define parts mapping for each service type\nconst servicePartsMap = {\n  'oil_change': [\n    { partName: 'engine_oil', quantity: 1 },\n    { partName: 'oil_filter', quantity: 1 }\n  ],\n  'brake_service': [\n    { partName: 'brake_pads', quantity: 2 },\n    { partName: 'brake_fluid', quantity: 1 }\n  ],\n  'ac_repair': [\n    { partName: 'ac_gas', quantity: 1 },\n    { partName: 'ac_compressor', quantity: 1 }\n  ],\n  'thermostat_replacement': [\n    { partName: 'thermostat', quantity: 1 }\n  ],\n  'routine_maintenance': [\n    { partName: 'engine_oil', quantity: 1 },\n    { partName: 'oil_filter', quantity: 1 }\n  ]\n};\n\nconst partsToRelease = servicePartsMap[serviceType] || [];\n\nif (partsToRelease.length === 0) {\n  return [{\n    json: {\n      ...appointmentData,\n      partsReleased: [],\n      message: 'No parts to release for this service type'\n    }\n  }];\n}\n\nreturn partsToRelease.map(part => ({\n  json: {\n    appointmentId: appointmentData.appointmentId,\n    customerId: appointmentData.customerId,\n    customerName: appointmentData.customerName,\n    customerEmail: appointmentData.customerEmail,\n    customerPhone: appointmentData.customerPhone,\n    serviceType: serviceType,\n    partName: part.partName,\n    quantityToRelease: part.quantity,\n    centerId: appointmentData.centerId || 'SC_A',\n    action: 'release',\n    cancelledAt: appointmentData.cancelledAt,\n    estimatedCost: appointmentData.estimatedCost || 2999,\n    startTime: appointmentData.startTime\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        432
+      ],
+      "id": "9073b2e1-9ef2-4d65-b7b9-82e08a96d437",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process parts release - ALWAYS release 1 quantity\ntry {\n  // Get release requests\n  const releaseData = $input.all().map(item => item.json);\n  \n  // Get current inventory\n  const inventoryData = $('Get Current Inventory').all().map(item => item.json);\n  const updatedParts = [];\n  \n  for (const releaseRequest of releaseData) {\n    // Find matching part in inventory\n    const currentPart = inventoryData.find(inv => \n      inv.partName === releaseRequest.partName && \n      inv.centerId === releaseRequest.centerId\n    );\n    \n    if (!currentPart) {\n      updatedParts.push({\n        ...releaseRequest,\n        currentQuantity: 0,\n        newQuantity: 0,\n        error: 'Part not found in inventory'\n      });\n      continue;\n    }\n    \n    const currentQty = parseInt(currentPart.quantity) || 0;\n    const releaseQty = 1; // ALWAYS RELEASE 1 QUANTITY\n    \n    const newQty = currentQty - releaseQty;\n    \n    if (newQty < 0) {\n      updatedParts.push({\n        ...releaseRequest,\n        partId: currentPart.partId,\n        currentQuantity: currentQty,\n        newQuantity: currentQty,\n        error: `Insufficient stock: Only ${currentQty} available, cannot release 1 item`\n      });\n    } else {\n      updatedParts.push({\n        ...releaseRequest,\n        partId: currentPart.partId,\n        currentQuantity: currentQty,\n        newQuantity: newQty,\n        row_number: currentPart.row_number,\n        message: `Successfully released 1 item`,\n        releasedQuantity: 1\n      });\n    }\n  }\n  \n  return updatedParts.map(part => ({ json: part }));\n  \n} catch (error) {\n  return [{\n    json: {\n      error: `Processing error: ${error.message}`\n    }\n  }];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        304,
+        432
+      ],
+      "id": "2de87e99-0e4b-4e7e-b213-e452228be79f",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare all notification data\nconst cancelledAppointment = $('Code in JavaScript1').first().json;\nconst releasedParts = $('Code in JavaScript3').all().map(item => item.json);\n\n// Mock waitlisted customers\nconst waitlistedCustomers = [\n  {\n    customerId: 'WAIT_001',\n    customerName: 'Priya Singh',\n    customerEmail: 'priya.singh@example.com',\n    customerPhone: '+919876543210',\n    serviceType: cancelledAppointment.serviceType\n  },\n  {\n    customerId: 'WAIT_002',\n    customerName: 'Amit Kumar',\n    customerEmail: 'amit.kumar@example.com',\n    customerPhone: '+919876543211',\n    serviceType: cancelledAppointment.serviceType\n  }\n];\n\nconst matchingWaitlist = waitlistedCustomers.filter(\n  customer => customer.serviceType === cancelledAppointment.serviceType\n);\n\nreturn [{\n  json: {\n    cancellation: {\n      appointmentId: cancelledAppointment.appointmentId,\n      customerId: cancelledAppointment.customerId,\n      customerName: cancelledAppointment.customerName,\n      customerEmail: cancelledAppointment.customerEmail,\n      customerPhone: cancelledAppointment.customerPhone,\n      serviceType: cancelledAppointment.serviceType,\n      estimatedCost: cancelledAppointment.estimatedCost || 2999,\n      refundAmount: (cancelledAppointment.estimatedCost || 2999) * 0.8,\n      startTime: cancelledAppointment.startTime,\n      cancelledAt: cancelledAppointment.cancelledAt\n    },\n    partsReleased: releasedParts.map(p => ({\n      partName: p.partName,\n      quantity: p.quantityToRelease,\n      newInventory: p.newQuantity\n    })),\n    waitlistNotified: matchingWaitlist.length,\n    waitlistCustomers: matchingWaitlist\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        432
+      ],
+      "id": "cb91894b-6049-4147-a3da-c0aee257ee7d",
+      "name": "Code in JavaScript4"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1VofaxcSO1irDNBLBDxDD2R5wNeaCDHEDlIIZL2eKjFU",
+          "mode": "list",
+          "cachedResultName": "update5",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VofaxcSO1irDNBLBDxDD2R5wNeaCDHEDlIIZL2eKjFU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 871000008,
+          "mode": "list",
+          "cachedResultName": "ooo1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VofaxcSO1irDNBLBDxDD2R5wNeaCDHEDlIIZL2eKjFU/edit#gid=871000008"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "appointmentId",
+              "lookupValue": "={{ $json.appointmentId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -464,
+        432
+      ],
+      "id": "b4f7d7bc-ed46-4c7c-a199-d3feae7bc31f",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ejx5gXBK1x8bww8Z",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ JSON.stringify($json, null, 2) }}",
+        "options": {
+          "systemMessage": "You are a data preparation expert. You MUST return ONLY structured JSON data in this exact format:\n\n{\n  \"customerRequest\": {original customer request data},\n  \"serviceCenters\": [filtered service centers array],\n  \"appointments\": [relevant appointments array], \n  \"technicians\": [filtered technicians array],\n  \"partsInventory\": [relevant parts array]\n}\n\nDo NOT return any text, explanations, or messages. Only return the JSON object."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -1120,
+        -32
+      ],
+      "id": "09d86634-9d63-4870-b8de-5d5dfd3c6ee4",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1280,
+        96
+      ],
+      "id": "f1d8706c-1a31-4b60-8a30-29fbd232edb7",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "O8B2Z0nckDCnsrvo",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ki1N3kyE4BpJt4KF-4fdJIVfSwRIuJixvc-NmVdnicU",
+          "mode": "list",
+          "cachedResultName": "Partsinventory",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ki1N3kyE4BpJt4KF-4fdJIVfSwRIuJixvc-NmVdnicU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1924149780,
+          "mode": "list",
+          "cachedResultName": "Partsinventory",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ki1N3kyE4BpJt4KF-4fdJIVfSwRIuJixvc-NmVdnicU/edit#gid=1924149780"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        -1120,
+        176
+      ],
+      "id": "7248aad1-ca0c-4afa-a255-6b76995530df",
+      "name": "partsinventory",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ejx5gXBK1x8bww8Z",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1EuGD4t44ySG7qd1-JH0TgbvmuYsFsCP6sONoWrRgO0w",
+          "mode": "list",
+          "cachedResultName": "Servicecenter",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1EuGD4t44ySG7qd1-JH0TgbvmuYsFsCP6sONoWrRgO0w/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1252740701,
+          "mode": "list",
+          "cachedResultName": "Servicecenter",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1EuGD4t44ySG7qd1-JH0TgbvmuYsFsCP6sONoWrRgO0w/edit#gid=1252740701"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        -992,
+        192
+      ],
+      "id": "8f99b3cb-babb-475d-a1dc-1a43afbeb46a",
+      "name": "Servicecenter",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ejx5gXBK1x8bww8Z",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1m5ILdzwOCbvZizIf28FggsO1b0YXu_492nee0EncyF8",
+          "mode": "list",
+          "cachedResultName": "Techniciansheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m5ILdzwOCbvZizIf28FggsO1b0YXu_492nee0EncyF8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1918169778,
+          "mode": "list",
+          "cachedResultName": "Techniciansheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m5ILdzwOCbvZizIf28FggsO1b0YXu_492nee0EncyF8/edit#gid=1918169778"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        -864,
+        160
+      ],
+      "id": "a8d868ca-69f1-4619-b8ff-fdca3c53feaa",
+      "name": "Techniciansheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ejx5gXBK1x8bww8Z",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1AVh2zW96iBHxol-eLvuz77S9eITKKKJStBT7Iwslh4g",
+          "mode": "list",
+          "cachedResultName": "ooo1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AVh2zW96iBHxol-eLvuz77S9eITKKKJStBT7Iwslh4g/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 871000008,
+          "mode": "list",
+          "cachedResultName": "ooo1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AVh2zW96iBHxol-eLvuz77S9eITKKKJStBT7Iwslh4g/edit#gid=871000008"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        -736,
+        160
+      ],
+      "id": "1c5b8cc0-a459-4f8b-bf27-751fce61ab79",
+      "name": "Get Existing Appointment",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ejx5gXBK1x8bww8Z",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse AI Agent string output to JSON object\nconst aiOutput = $input.first().json;\n\nconsole.log('AI Agent Raw Output:', aiOutput);\n\n// If output is string, parse it to JSON\nif (aiOutput.output && typeof aiOutput.output === 'string') {\n  try {\n    const parsedData = JSON.parse(aiOutput.output);\n    console.log('Parsed AI Data:', parsedData);\n    return [{ json: parsedData }];\n  } catch (error) {\n    console.error('JSON Parse Error:', error);\n    return [{\n      json: {\n        error: 'Failed to parse AI Agent output',\n        rawOutput: aiOutput.output\n      }\n    }];\n  }\n}\n\n// If already JSON, return as is\nreturn [{ json: aiOutput }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -784,
+        -32
+      ],
+      "id": "ca5bcdf8-3b3f-4a51-98f7-981fa9d477ba",
+      "name": "Code in JavaScript5"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Appointment Request Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Appointment": {
+      "main": [
+        [
+          {
+            "node": "Send SMS Confirmation",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Email Confirmation",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Waitlist Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Parts Inventory": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fleet scheduling Algorithm": {
+      "main": [
+        [
+          {
+            "node": "Fleet Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Booking ": {
+      "main": [
+        [
+          {
+            "node": "Save Appointment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scheduling Algorithm": {
+      "main": [
+        [
+          {
+            "node": "Prepare Booking ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalized Request Data": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Normalized Request Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fleet scheduling Algorithm",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Get Parts Inventory",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cancellation Response": {
+      "main": [
+        []
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Cancellation Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "partsinventory": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Servicecenter": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Techniciansheet": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Existing Appointment": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript5": {
+      "main": [
+        [
+          {
+            "node": "Scheduling Algorithm",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "498f37bd-4934-4152-85c1-70f4ac9fba36",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9f03552fc0957eef9184f37510f8bebd3618c2a7adb03f7d2379b5fe146a71bd"
+  },
+  "id": "MJQyQuFJYi4U6o36",
+  "tags": []
+}
