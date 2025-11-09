@@ -1,0 +1,36 @@
+{
+  "name": "Feedback",
+  "type": "object",
+  "properties": {
+    "rating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Star rating from 1 to 5"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Customer's email address"
+    },
+    "feedback_text": {
+      "type": "string",
+      "description": "Detailed feedback text"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "reviewed",
+        "resolved"
+      ],
+      "default": "new",
+      "description": "Feedback status"
+    }
+  },
+  "required": [
+    "rating",
+    "email",
+    "feedback_text"
+  ]
+}
